@@ -4,14 +4,9 @@ const path = require("path");
 
 //Функция чтения файла
 function readJson(file) {
-  return fs
-    .readFile(file)
-    .then((text) => {
-      return JSON.parse(text);
-    })
-    .catch((err) => {
-      console.log(`Произошла ошибка: ${err}`);
-    });
+  return fs.readFile(file).then((text) => {
+    return JSON.parse(text);
+  });
 }
 
 //Роутинг GET-запроса
@@ -22,7 +17,7 @@ routerCards.get("/", (req, res) => {
       res.send(users);
     })
     .catch((err) => {
-      res.send(err);
+      res.status(500).send(err);
     });
 });
 

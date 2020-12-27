@@ -1,4 +1,7 @@
 {
   "extends": "airbnb-base",
-  "rules": "allow"
+  "rules": {
+    "allow": "_id"
+  }
 }
+

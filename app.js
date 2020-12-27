@@ -14,7 +14,7 @@ app.use("/cards", routerCards);
 app.use(express.static(__dirname + "/public"));
 
 //Роутер для ненайденной на сервере страницы
-app.get("/*", (req, res) => {
+app.use("/*", (req, res) => {
   res.status(404).send({ message: "Запрашиваемый ресурс не найден" });
 });
 
