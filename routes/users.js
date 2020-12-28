@@ -25,13 +25,11 @@ routerUsers.get('/:id', (req, res) => {
   const fileSrc = path.join(__dirname, '../data/users.json');
   readJson(fileSrc)
     .then((users) => {
-      // eslint-disable-next-line no-shadow
-      const user = users.find((user) => user._id === id);
+      const user = users.find((use) => use._id === id);
       if (!user) {
         res
           .status(404)
-          // eslint-disable-next-line no-useless-concat
-          .send({ message: 'Нет пользователя с таким id: ' + `${id}` });
+          .send({ message: 'Нет пользователя с таким id' });
       }
       res.send(user);
     })
