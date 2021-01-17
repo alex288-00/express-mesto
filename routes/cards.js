@@ -1,22 +1,25 @@
 const routerCards = require('express').Router();
-const fs = require('fs').promises;
-const path = require('path');
+const {
+  getCards,
+  createCard,
+  deleteCard,
+  likeCard,
+  dislikeCard,
+} = require('../controllers/cards');
 
-// Функция чтения файла
-function readJson(file) {
-  return fs.readFile(file).then((text) => JSON.parse(text));
-}
+// GET-запрос отображает все карточки
+routerCards.get('/', getCards);
 
-// Роутинг GET-запроса карточек
-routerCards.get('/', (req, res) => {
-  const fileSrc = path.join(__dirname, '../data/cards.json');
-  readJson(fileSrc)
-    .then((users) => {
-      res.send(users);
-    })
-    .catch((err) => {
-      res.status(500).send(err);
-    });
-});
+// POST-запрос на создание новой карточки
+routerCards.post('/', createCard);
+
+// DELETE-запрос на удаление карточки
+routerCards.delete('/:cardId', deleteCard);
+
+// PUT-запрос на добавление лайка
+routerCards.put('/:cardId/likes', likeCard);
+
+// DELETE-запрос на удаление лайка
+routerCards.delete('/:cardId/likes', dislikeCard);
 
 module.exports = routerCards;

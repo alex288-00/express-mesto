@@ -1,41 +1,25 @@
 const routerUsers = require('express').Router();
-const fs = require('fs').promises;
-const path = require('path');
+const {
+  getUsers,
+  getUsersId,
+  createUser,
+  updateProfile,
+  updateAvatar,
+} = require('../controllers/users');
 
-// Функция чтения файла
-function readJson(file) {
-  return fs.readFile(file).then((text) => JSON.parse(text));
-}
+// GET-запрос отображает всех пользователей
+routerUsers.get('/', getUsers);
 
-// Роутинг GET-запроса пользователей
-routerUsers.get('/', (req, res) => {
-  const fileSrc = path.join(__dirname, '../data/users.json');
-  readJson(fileSrc)
-    .then((users) => {
-      res.send(users);
-    })
-    .catch((err) => {
-      res.status(500).send(err);
-    });
-});
+// GET-запрос отображает конкретного пользователя по id
+routerUsers.get('/:userId', getUsersId);
 
-// Роутинг GET-запроса пользователя по йди
-routerUsers.get('/:id', (req, res) => {
-  const { id } = req.params;
-  const fileSrc = path.join(__dirname, '../data/users.json');
-  readJson(fileSrc)
-    .then((users) => {
-      const user = users.find((use) => use._id === id);
-      if (!user) {
-        res
-          .status(404)
-          .send({ message: 'Нет пользователя с таким id' });
-      }
-      res.send(user);
-    })
-    .catch((err) => {
-      res.status(500).send(err);
-    });
-});
+// POST-запрос на создание нового пользователя
+routerUsers.post('/', createUser);
+
+// PATCH-запрос на обновление данных пользователя
+routerUsers.patch('/me', updateProfile);
+
+// PATCH-запрос на обновление аватара
+routerUsers.patch('/me/avatar', updateAvatar);
 
 module.exports = routerUsers;
