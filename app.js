@@ -26,11 +26,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// Заглушка при GET-запросе главной страницы
-app.get('/', (req, res) => {
-  res.send({ message: 'Тут будет фронтенд' });
-});
-
 // Роутер для пользователей
 app.use('/users', routerUsers);
 
